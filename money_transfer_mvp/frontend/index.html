@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meridian Transfer - Send Money, Support Education</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Auth Section -->
+        <div id="authSection" class="section">
+            <div class="hero">
+                <h1>🌍 Meridian Transfer</h1>
+                <p class="tagline">Send money home. Support education.</p>
+                <p class="mission">Every transfer contributes 2% of revenue to education in West Africa</p>
+            </div>
+
+            <div class="auth-form">
+                <div class="tabs">
+                    <button class="tab active" onclick="showTab('login')">Login</button>
+                    <button class="tab" onclick="showTab('register')">Create Account</button>
+                </div>
+
+                <div id="loginForm" class="tab-content active">
+                    <input type="email" id="loginEmail" placeholder="Email" required>
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                    <button onclick="login()" class="btn-primary">Login</button>
+                </div>
+
+                <div id="registerForm" class="tab-content">
+                    <input type="email" id="regEmail" placeholder="Email" required>
+                    <input type="text" id="regName" placeholder="Full Name" required>
+                    <input type="tel" id="regPhone" placeholder="Phone Number" required>
+                    <input type="text" id="regAddress" placeholder="Street Address" required>
+                    <input type="text" id="regCity" placeholder="City" required>
+                    <input type="text" id="regState" value="Minnesota" required>
+                    <input type="text" id="regZip" placeholder="ZIP Code" required>
+                    <input type="date" id="regDOB" placeholder="Date of Birth" required>
+                    <input type="password" id="regPassword" placeholder="Password" required>
+                    <button onclick="register()" class="btn-primary">Create Account</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main App Section -->
+        <div id="appSection" class="section" style="display:none;">
+            <header>
+                <h1>🌍 Meridian Transfer</h1>
+                <div class="user-info">
+                    <span id="userName"></span>
+                    <span id="kycBadge" class="badge"></span>
+                    <button onclick="logout()" class="btn-secondary">Logout</button>
+                </div>
+            </header>
+
+            <nav class="nav-tabs">
+                <button class="nav-tab active" onclick="showSection('transfer')">Send Money</button>
+                <button class="nav-tab" onclick="showSection('recipients')">Recipients</button>
+                <button class="nav-tab" onclick="showSection('history')">History</button>
+                <button class="nav-tab" onclick="showSection('impact')">My Impact</button>
+                <button class="nav-tab" onclick="showSection('kyc')">KYC</button>
+            </nav>
+
+            <!-- Transfer Section -->
+            <div id="transferSection" class="content-section active">
+                <h2>Send Money</h2>
+
+                <div class="kyc-notice" id="kycNotice" style="display:none;">
+                    <p>⚠️ Complete KYC verification to start sending money</p>
+                    <button onclick="showSection('kyc')" class="btn-primary">Complete KYC</button>
+                </div>
+
+                <div id="transferForm">
+                    <div class="form-group">
+                        <label>Select Recipient</label>
+                        <select id="transferRecipient" onchange="updateQuote()">
+                            <option value="">Choose recipient...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>You Send (USD)</label>
+                        <input type="number" id="sendAmount" placeholder="100.00" step="0.01" min="1" oninput="updateQuote()">
+                    </div>
+
+                    <div id="quoteBox" class="quote-box" style="display:none;">
+                        <div class="quote-row">
+                            <span>Exchange Rate:</span>
+                            <span id="quoteRate">-</span>
+                        </div>
+                        <div class="quote-row">
+                            <span>Fee:</span>
+                            <span id="quoteFee">-</span>
+                        </div>
+                        <div class="quote-row highlight">
+                            <span>Recipient Receives:</span>
+                            <span id="quoteReceive">-</span>
+                        </div>
+                        <div class="quote-row education">
+                            <span>Education Contribution:</span>
+                            <span id="quoteEducation">-</span>
+                        </div>
+                        <div class="quote-row total">
+                            <span>Total Cost:</span>
+                            <span id="quoteTotal">-</span>
+                        </div>
+                    </div>
+
+                    <button onclick="sendMoney()" class="btn-primary btn-large">Send Money</button>
+                </div>
+            </div>
+
+            <!-- Recipients Section -->
+            <div id="recipientsSection" class="content-section">
+                <h2>Recipients</h2>
+
+                <div class="add-recipient-form">
+                    <h3>Add New Recipient</h3>
+                    <input type="text" id="recipientName" placeholder="Recipient Name">
+                    <input type="tel" id="recipientPhone" placeholder="Phone Number">
+                    <select id="recipientCountry" onchange="loadProviders()">
+                        <option value="">Select Country...</option>
+                    </select>
+                    <select id="recipientProvider">
+                        <option value="">Select Mobile Money Provider...</option>
+                    </select>
+                    <input type="tel" id="recipientMMNumber" placeholder="Mobile Money Number">
+                    <button onclick="addRecipient()" class="btn-primary">Add Recipient</button>
+                </div>
+
+                <div id="recipientsList" class="recipients-list"></div>
+            </div>
+
+            <!-- History Section -->
+            <div id="historySection" class="content-section">
+                <h2>Transfer History</h2>
+                <div id="transferHistory" class="transfer-history"></div>
+            </div>
+
+            <!-- Impact Section -->
+            <div id="impactSection" class="content-section">
+                <h2>🌍 Your Social Impact</h2>
+
+                <div class="impact-stats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="impactTransfers">0</div>
+                        <div class="stat-label">Transfers Made</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="impactSent">$0</div>
+                        <div class="stat-label">Total Sent</div>
+                    </div>
+                    <div class="stat-card highlight">
+                        <div class="stat-value" id="impactEducation">$0</div>
+                        <div class="stat-label">Education Contribution</div>
+                    </div>
+                </div>
+
+                <h3>Transfer Heat Map</h3>
+                <div id="heatMap" class="heat-map"></div>
+
+                <h3>Platform Impact</h3>
+                <div class="platform-stats">
+                    <p>Total Platform Education Fund: <strong id="platformEducation">$0</strong></p>
+                    <p>Total Platform Transfers: <strong id="platformTransfers">0</strong></p>
+                </div>
+
+                <h3>Education Partners</h3>
+                <div id="educationPartners" class="education-partners"></div>
+            </div>
+
+            <!-- KYC Section -->
+            <div id="kycSection" class="content-section">
+                <h2>KYC Verification</h2>
+
+                <div class="kyc-info">
+                    <div class="kyc-tier-info">
+                        <h3>Your Status: <span id="kycStatus">NONE</span></h3>
+                        <p>Current Tier: <span id="kycTier">0</span></p>
+                        <div id="kycLimits"></div>
+                    </div>
+
+                    <div class="kyc-tiers">
+                        <div class="tier-card">
+                            <h4>Tier 1 - Basic</h4>
+                            <ul>
+                                <li>Photo ID required</li>
+                                <li>Daily limit: $500</li>
+                                <li>Monthly limit: $2,000</li>
+                            </ul>
+                        </div>
+                        <div class="tier-card">
+                            <h4>Tier 2 - Full</h4>
+                            <ul>
+                                <li>Photo ID + Proof of Address</li>
+                                <li>Daily limit: $5,000</li>
+                                <li>Monthly limit: $20,000</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kyc-upload">
+                    <h3>Upload Documents</h3>
+                    <select id="documentType">
+                        <option value="">Select Document Type...</option>
+                        <option value="ID">Government ID</option>
+                        <option value="PASSPORT">Passport</option>
+                        <option value="DRIVERS_LICENSE">Driver's License</option>
+                        <option value="PROOF_OF_ADDRESS">Proof of Address</option>
+                    </select>
+                    <input type="text" id="documentNumber" placeholder="Document Number">
+                    <input type="file" id="documentFile" accept="image/*,application/pdf">
+                    <button onclick="uploadKYC()" class="btn-primary">Upload Document</button>
+                </div>
+
+                <div id="kycDocuments" class="kyc-documents"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

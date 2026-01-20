@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Meridian Transfer</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Admin Login -->
+        <div id="adminLogin" class="section">
+            <div class="login-box">
+                <h1>🔐 Admin Dashboard</h1>
+                <input type="email" id="adminEmail" placeholder="Admin Email">
+                <input type="password" id="adminPassword" placeholder="Password">
+                <button onclick="adminLogin()" class="btn-primary">Login</button>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="adminDashboard" class="section" style="display:none;">
+            <header>
+                <h1>🌍 Meridian Transfer - Admin</h1>
+                <div class="admin-info">
+                    <span id="adminName"></span>
+                    <button onclick="adminLogout()" class="btn-secondary">Logout</button>
+                </div>
+            </header>
+
+            <nav class="nav-tabs">
+                <button class="nav-tab active" onclick="showAdminSection('overview')">Overview</button>
+                <button class="nav-tab" onclick="showAdminSection('kyc')">KYC Review</button>
+                <button class="nav-tab" onclick="showAdminSection('transfers')">Transfers</button>
+                <button class="nav-tab" onclick="showAdminSection('education')">Education Fund</button>
+            </nav>
+
+            <!-- Overview Section -->
+            <div id="overviewSection" class="content-section active">
+                <h2>Dashboard Overview</h2>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-value" id="totalUsers">0</div>
+                        <div class="stat-label">Total Users</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⏳</div>
+                        <div class="stat-value" id="pendingKYC">0</div>
+                        <div class="stat-label">Pending KYC</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💸</div>
+                        <div class="stat-value" id="totalTransfers">0</div>
+                        <div class="stat-label">Total Transfers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-value" id="totalVolume">$0</div>
+                        <div class="stat-label">Total Volume</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💵</div>
+                        <div class="stat-value" id="totalFees">$0</div>
+                        <div class="stat-label">Total Fees</div>
+                    </div>
+                    <div class="stat-card highlight">
+                        <div class="stat-icon">🎓</div>
+                        <div class="stat-value" id="totalEducation">$0</div>
+                        <div class="stat-label">Education Fund</div>
+                    </div>
+                </div>
+
+                <h3>Recent Transfers</h3>
+                <div id="recentTransfers" class="transfers-table"></div>
+            </div>
+
+            <!-- KYC Review Section -->
+            <div id="kycSection" class="content-section">
+                <h2>KYC Review Queue</h2>
+
+                <div id="kycQueue" class="kyc-queue"></div>
+
+                <!-- KYC Detail Modal -->
+                <div id="kycModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeKYCModal()">&times;</span>
+                        <h2>Review KYC Documents</h2>
+                        <div id="kycDetails"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transfers Section -->
+            <div id="transfersSection" class="content-section">
+                <h2>All Transfers</h2>
+                <div id="allTransfers" class="transfers-table"></div>
+            </div>
+
+            <!-- Education Fund Section -->
+            <div id="educationSection" class="content-section">
+                <h2>Education Fund by Country</h2>
+                <div id="educationFund" class="education-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

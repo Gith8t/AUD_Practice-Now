@@ -1,0 +1,30 @@
+{
+  "name": "meridian-transfer",
+  "version": "1.0.0",
+  "description": "Money Transfer App with Social Impact - Send money to West Africa and support education",
+  "scripts": {
+    "backend": "cd backend && python main.py",
+    "mobile:init": "npm install @capacitor/core @capacitor/cli @capacitor/ios @capacitor/android",
+    "mobile:add:ios": "npx cap add ios",
+    "mobile:add:android": "npx cap add android",
+    "mobile:sync": "npx cap sync",
+    "mobile:open:ios": "npx cap open ios",
+    "mobile:open:android": "npx cap open android"
+  },
+  "keywords": [
+    "money-transfer",
+    "remittance",
+    "west-africa",
+    "mobile-money",
+    "social-impact",
+    "education"
+  ],
+  "author": "Meridian Transfer",
+  "license": "MIT",
+  "devDependencies": {
+    "@capacitor/android": "^5.0.0",
+    "@capacitor/cli": "^5.0.0",
+    "@capacitor/core": "^5.0.0",
+    "@capacitor/ios": "^5.0.0"
+  }
+}

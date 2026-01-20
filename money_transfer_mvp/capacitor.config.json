@@ -1,0 +1,22 @@
+{
+  "appId": "com.meridian.transfer",
+  "appName": "Meridian Transfer",
+  "webDir": "frontend",
+  "bundledWebRuntime": false,
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#0c1f16",
+      "showSpinner": true,
+      "spinnerColor": "#2ecc71"
+    },
+    "StatusBar": {
+      "style": "dark",
+      "backgroundColor": "#0c1f16"
+    }
+  },
+  "server": {
+    "androidScheme": "https",
+    "iosScheme": "https"
+  }
+}
