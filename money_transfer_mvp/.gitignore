@@ -40,3 +40,8 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Temporary files
+*.zip
+*.tar.gz
+server.pid
